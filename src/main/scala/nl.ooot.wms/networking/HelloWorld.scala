@@ -9,8 +9,10 @@ object HelloWorld extends Dispatcher {
   var signature = "/hello"
   def dispatch(input: InputStream, s: Socket): Unit = {
     println("Hello world console")
-    var out = new PrintWriter(s.getOutputStream(), true);
+    var out = new PrintWriter(s.getOutputStream(), false);
+
     out.print("Hello World!!")
+    out.flush()
 //    println("Hello world!")
   }
 }

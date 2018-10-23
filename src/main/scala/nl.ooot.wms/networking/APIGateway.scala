@@ -23,9 +23,10 @@ object APIGateway{
       var scanning = true
       while(sc.hasNext() && scanning) {
         lines = lines + 1
+        var next = sc.next()
         if (lines == 2) {
           for (d <- dispatchers) {
-            if (sc.next().startsWith(d.signature)) {
+            if (next.startsWith(d.signature)) {
               d.dispatch(input, s)
             }
           }

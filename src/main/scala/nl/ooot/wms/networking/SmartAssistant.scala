@@ -1,11 +1,18 @@
 package nl.ooot.wms.networking
 
-import java.io._
-import java.net.Socket
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._
 
 object SmartAssistant extends Dispatcher {
-  var signature = "/smart"
-  def dispatch(input: InputStream, s: Socket): Unit = {
-    println("2 + 2 is 4 minus 1 is 3 quick matHS")
-  }
+
+  def routes(): akka.http.scaladsl.server.Route = {
+      path("smart") {
+        get {
+          complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "Get it smartguy?"))
+        } ~
+        post {
+          complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "This would smartly be the result of a post"))
+        }
+      }
+    }
 }

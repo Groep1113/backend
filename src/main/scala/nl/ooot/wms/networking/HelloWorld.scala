@@ -1,21 +1,18 @@
 package nl.ooot.wms.networking
 
-import java.io._
-import java.net.Socket
-import java.io.OutputStreamWriter
-import java.io.PrintWriter
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives._
 
 object HelloWorld extends Dispatcher {
-  var signature = "/hello"
-  def dispatch(input: InputStream, s: Socket): Unit = {
-    println("Hello world console")
-    var out = new PrintWriter(s.getOutputStream(), false);
-    out.print("HTTP/1.1 200 \r\n"); // Version & status code
-    out.print("Content-Type: text/plain\r\n"); // The type of data
-    out.print("Connection: close\r\n"); // Will close stream
-    out.print("\r\n");
-    out.print("Hello World!!")
-    out.flush()
-//    println("Hello world!")
+
+  def routes(): akka.http.scaladsl.server.Route = {
+    path("hello") {
+      get {
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "Get it?"))
+      } ~
+      post {
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "This would be the result of a post"))
+      }
+    }
   }
 }

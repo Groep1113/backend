@@ -5,16 +5,12 @@ ThisBuild / organization := "nl.ooot.wms"
 val dirSubmodules = "sbt_submodules"
 
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.5"
-val gigahorse = "com.eed3si9n" %% "gigahorse-okhttp" % "0.3.1"
-val playJson  = "com.typesafe.play" %% "play-json" % "2.6.9"
-
-val circeVersion = "0.10.0"
 
 lazy val IT_WMS = (project in file("."))
-  // .dependsOn(IT_WMS_Core) // dependsOn vs aggregate ?
-  .dependsOn(IT_WMS_Core)
-  .dependsOn(IT_WMS_Networking)
-  .dependsOn(IT_WMS_GraphQL)
+  // .dependsOn(Core) // @TODO: dependsOn vs aggregate ?
+  .dependsOn(Core)
+  .dependsOn(Networking)
+  .dependsOn(GraphQL)
   .enablePlugins(JavaAppPackaging)
   .settings(
   	// project name
@@ -26,29 +22,44 @@ lazy val IT_WMS = (project in file("."))
     libraryDependencies += scalaTest % Test,
   )
 
-lazy val IT_WMS_Core = (project in file(s"$dirSubmodules/core"))
+lazy val Core = (project in file(s"$dirSubmodules/core"))
   .settings(
     name := "HTG IT Core",
     libraryDependencies += scalaTest % Test,
-    libraryDependencies ++= Seq(gigahorse, playJson),
+    libraryDependencies ++= Seq(
+      // These libraries are only used for the Weather example/test
+      "com.eed3si9n" %% "gigahorse-okhttp" % "0.3.1",
+      "com.typesafe.play" %% "play-json" % "2.6.9"
+    ),
   )
 
-lazy val IT_WMS_Networking = (project in file(s"$dirSubmodules/networking"))
+lazy val Networking = (project in file(s"$dirSubmodules/networking"))
   .settings(
     name := "HTG IT Networking",
     libraryDependencies += scalaTest % Test,
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-http"   % "10.1.5",
+      "com.typesafe.akka" %% "akka-stream" % "2.5.12"
+    ),
   )
 
-lazy val IT_WMS_GraphQL = (project in file(s"$dirSubmodules/graphql"))
+lazy val GraphQL = (project in file(s"$dirSubmodules/graphql"))
   .settings(
     name := "HTG IT GraphQL",
     libraryDependencies += scalaTest % Test,
-    libraryDependencies += "org.sangria-graphql" %% "sangria" % "1.4.2",
-    libraryDependencies += "org.sangria-graphql" %% "sangria-circe" % "1.2.1",
-    // JSON Library; circe.github.io/circe/
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core",
-      "io.circe" %% "circe-generic",
-      "io.circe" %% "circe-parser"
-    ).map(_ % circeVersion)
+      // Sangria is our GraphQL backend library
+      "org.sangria-graphql" %% "sangria" % "1.4.2",
+      "org.sangria-graphql" %% "sangria-slowlog" % "0.1.8",
+      "org.sangria-graphql" %% "sangria-circe" % "1.2.1",
+
+      // Akka HTTP is used for the webserver
+      "com.typesafe.akka" %% "akka-http" % "10.1.5",
+      "de.heikoseeberger" %% "akka-http-circe" % "1.21.0",
+
+      // JSON Library; circe.github.io/circe/
+      "io.circe" %%	"circe-core" % "0.9.3",
+      "io.circe" %% "circe-parser" % "0.9.3",
+      "io.circe" %% "circe-optics" % "0.9.3",
+    )
   )

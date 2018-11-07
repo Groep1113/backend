@@ -12,7 +12,7 @@ lazy val IT_WMS = (project in file("."))
   .dependsOn(Networking)
   .dependsOn(GraphQL)
   .enablePlugins(JavaAppPackaging)
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, PlayEbean)
   .settings(
   	// project name
     name := "htg-it-wms",

@@ -6,9 +6,13 @@
 GET     /                           @nl.ooot.wms.controllers.HomeController.index
 
 # GraphQL (sangria)
++ nocsrf
 GET        /graphql              nl.ooot.wms.graphql.GraphQLController.graphql(query: String, variables: Option[String], operation: Option[String])
++ nocsrf
 POST       /graphql              nl.ooot.wms.graphql.GraphQLController.graphqlBody
++ nocsrf
 GET        /render-schema        nl.ooot.wms.graphql.GraphQLController.renderSchema
++ nocsrf
 GET        /playground           nl.ooot.wms.graphql.GraphQLController.playground
 
 # Map static resources from the /public folder to the /assets URL path

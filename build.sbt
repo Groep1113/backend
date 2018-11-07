@@ -1,9 +1,9 @@
 ThisBuild / version      := "0.1.0"
 ThisBuild / scalaVersion := "2.12.7"
 ThisBuild / organization := "nl.ooot.wms"
+routesGenerator := InjectedRoutesGenerator
 
 val dirSubmodules = "sbt_submodules"
-
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.5"
 
 lazy val IT_WMS = (project in file("."))
@@ -12,6 +12,7 @@ lazy val IT_WMS = (project in file("."))
   .dependsOn(Networking)
   .dependsOn(GraphQL)
   .enablePlugins(JavaAppPackaging)
+  .enablePlugins(PlayScala, PlayEbean)
   .settings(
   	// project name
     name := "htg-it-wms",
@@ -20,6 +21,7 @@ lazy val IT_WMS = (project in file("."))
     maxErrors := 20,
 
     libraryDependencies += scalaTest % Test,
+    libraryDependencies += guice,
   )
 
 lazy val Core = (project in file(s"$dirSubmodules/core"))
@@ -37,10 +39,10 @@ lazy val Networking = (project in file(s"$dirSubmodules/networking"))
   .settings(
     name := "HTG IT Networking",
     libraryDependencies += scalaTest % Test,
-    libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-http"   % "10.1.5",
-      "com.typesafe.akka" %% "akka-stream" % "2.5.12"
-    ),
+//    libraryDependencies ++= Seq(
+//      "com.typesafe.akka" %% "akka-http"   % "10.1.5",
+//      "com.typesafe.akka" %% "akka-stream" % "2.5.12"
+//    ),
   )
 
 lazy val GraphQL = (project in file(s"$dirSubmodules/graphql"))

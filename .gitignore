@@ -184,3 +184,4 @@ project/target/
 # End of https://www.gitignore.io/api/java,scala,eclipse,intellij+all
 
 sbt_submodules/*
+production.conf

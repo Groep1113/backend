@@ -6,7 +6,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import nl.ooot.wms.graphql.GraphQLDispatcher
+//import nl.ooot.wms.graphql.GraphQLDispatcher
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -20,7 +20,7 @@ object WebServer {
   // needed for the future flatMap/onComplete in the end
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
-  val dispatchers = Array(HelloWorld, SmartAssistant, GraphQLDispatcher)
+  val dispatchers = Array(HelloWorld, SmartAssistant)
 
   /*
     A little confusing... ~ is a method on objects used as sequential parser combinator

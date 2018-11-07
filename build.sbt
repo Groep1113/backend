@@ -53,15 +53,15 @@ lazy val GraphQL = (project in file(s"$dirSubmodules/graphql"))
       // Sangria is our GraphQL backend library
       "org.sangria-graphql" %% "sangria" % "1.4.2",
       "org.sangria-graphql" %% "sangria-slowlog" % "0.1.8",
-      "org.sangria-graphql" %% "sangria-circe" % "1.2.1",
+      "org.sangria-graphql" %% "sangria-play-json" % "1.0.4",
 
       // Akka HTTP is used for the webserver
       "com.typesafe.akka" %% "akka-http" % "10.1.5",
       "de.heikoseeberger" %% "akka-http-circe" % "1.21.0",
 
       // JSON Library; circe.github.io/circe/
-      "io.circe" %%	"circe-core" % "0.9.3",
-      "io.circe" %% "circe-parser" % "0.9.3",
-      "io.circe" %% "circe-optics" % "0.9.3",
+//      "io.circe" %%	"circe-core" % "0.9.3",
+//      "io.circe" %% "circe-parser" % "0.9.3",
+//      "io.circe" %% "circe-optics" % "0.9.3",
     )
   )

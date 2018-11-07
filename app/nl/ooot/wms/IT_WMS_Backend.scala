@@ -17,7 +17,6 @@ object IT_WMS_Backend extends App {
   import io.circe.Json
   import sangria.execution._
   import sangria.macros._
-  import sangria.marshalling.circe._
 
   import graphql.CharacterRepo
   import graphql.SchemaDefinition.StarWarsSchema
@@ -39,10 +38,10 @@ object IT_WMS_Backend extends App {
       }
     }
   """
-  val result: Future[Json] =
-    Executor.execute(StarWarsSchema, query, new CharacterRepo)
+//  val result: Future[Json] =
+//    Executor.execute(StarWarsSchema, query, new CharacterRepo)
 
-  result.onComplete(println)
+//  result.onComplete(println)
   // --
 
   // Akka HTTP webserver

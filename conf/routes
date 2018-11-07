@@ -4,10 +4,12 @@
 
 # An example controller showing a sample home page
 GET     /                           @nl.ooot.wms.controllers.HomeController.index
-# An example controller showing how to use dependency injection
-#GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-#GET     /message                    controllers.AsyncController.message
+
+# GraphQL (sangria)
+GET        /graphql              nl.ooot.wms.graphql.GraphQLController.graphql(query: String, variables: Option[String], operation: Option[String])
+POST       /graphql              nl.ooot.wms.graphql.GraphQLController.graphqlBody
+GET        /render-schema        nl.ooot.wms.graphql.GraphQLController.renderSchema
+GET        /playground           nl.ooot.wms.graphql.GraphQLController.playground
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(file)

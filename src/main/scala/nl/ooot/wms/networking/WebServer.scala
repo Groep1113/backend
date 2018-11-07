@@ -4,28 +4,33 @@ import scala.io.StdIn
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
+import nl.ooot.wms.graphql.GraphQLDispatcher
+
+import scala.concurrent.ExecutionContextExecutor
 
 object WebServer {
-  def listen() {
+  /*
+    Implicit means its passed to function that would require such a type but aren't provided one.
+    TODO: Figure out what this magic means.
+  */
+  implicit val system: ActorSystem = ActorSystem("my-system")
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  // needed for the future flatMap/onComplete in the end
+  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
-    /* Implicit means its passed to function that would require such a type but aren't provided one.
-       TODO: Figure out what this magic means.
-     */
-    implicit val system = ActorSystem("my-system")
-    implicit val materializer = ActorMaterializer()
-    // needed for the future flatMap/onComplete in the end
-    implicit val executionContext = system.dispatcher
-    val dispatchers = Array(HelloWorld, SmartAssistant)
+  val dispatchers = Array(HelloWorld, SmartAssistant, GraphQLDispatcher)
 
-    /*
+  /*
     A little confusing... ~ is a method on objects used as sequential parser combinator
-     */
-    var route = path("/") { complete("") }
-    for (d <- dispatchers) {
-        route = route.~(d.routes())
-    }
+   */
+  var route: Route = path("/") { complete("") }
+  for (d <- dispatchers) {
+    route = route.~(d.routes())
+  }
 
+  def listen() {
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
 
     /* TODO: Fix this */

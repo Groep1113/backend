@@ -53,14 +53,13 @@ class GraphQLController @Inject()(system: ActorSystem, config: Configuration)(im
 
       // query parsed successfully, time to execute it!
       case Success(queryAst) ⇒
-        Executor.execute(SchemaDefinition.StarWarsSchema, queryAst, new CharacterRepo,
+        Executor.execute(SchemaDefinition.schema, queryAst, new UserRepo,
           operationName = operation,
           variables = variables getOrElse Json.obj(),
-          deferredResolver = DeferredResolver.fetchers(SchemaDefinition.characters),
           exceptionHandler = exceptionHandler,
           queryReducers = List(
-            QueryReducer.rejectMaxDepth[CharacterRepo](15),
-            QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)),
+            QueryReducer.rejectMaxDepth[UserRepo](15),
+            QueryReducer.rejectComplexQueries[UserRepo](4000, (_, _) ⇒ TooComplexQueryError)),
           middleware = if (tracing) SlowLog.apolloTracing :: Nil else Nil)
           .map(Ok(_))
           .recover {
@@ -83,7 +82,7 @@ class GraphQLController @Inject()(system: ActorSystem, config: Configuration)(im
   def isTracingEnabled(request: Request[_]) = request.headers.get("X-Apollo-Tracing").isDefined
 
   def renderSchema = Action {
-    Ok(SchemaRenderer.renderSchema(SchemaDefinition.StarWarsSchema))
+    Ok(SchemaRenderer.renderSchema(SchemaDefinition.schema))
   }
 
   lazy val exceptionHandler = ExceptionHandler {

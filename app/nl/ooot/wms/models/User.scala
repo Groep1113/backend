@@ -3,7 +3,6 @@ package nl.ooot.wms.models
 import java.sql.Date
 import java.util
 
-import io.ebean
 import javax.persistence._
 import nl.ooot.wms.dao._
 
@@ -34,7 +33,7 @@ class User {
   @BeanProperty
   var dateOfBirth: Date = _
 
-  @ManyToMany
+  @ManyToMany(mappedBy = "users")
   var roles : util.List[Role] = new util.ArrayList[Role]()
 }
 
@@ -52,7 +51,7 @@ object User extends Dao(classOf[User]) {
   def unapply(user: User): Option[(String, String, Date, String)] = Some((user.getFirstName, user.getLastName, user.getDateOfBirth, user.getEmail))
 
   def authenticate(username: String, password: String): User = {
-    var user : User = find().where().eq("email", username).eq("password", password).findOne()
+    val user: User = find().where().eq("email", username).eq("password", password).findOne()
     user
   }
 }

@@ -2,7 +2,6 @@ package nl.ooot.wms.models
 
 import java.util
 
-import io.ebean
 import javax.persistence._
 import nl.ooot.wms.dao._
 
@@ -17,6 +16,8 @@ class Role {
   @BeanProperty
   var name: String = _
 
+  @ManyToMany
+  var users : util.List[User] = new util.ArrayList[User]()
 }
 
 object Role extends Dao(classOf[Role]) {

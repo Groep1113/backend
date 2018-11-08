@@ -1,7 +1,6 @@
 package nl.ooot.wms
 
 import nl.ooot.wms.core.Weather
-import nl.ooot.wms.networking.WebServer
 
 import scala.concurrent._
 import scala.concurrent.duration._
@@ -13,7 +12,5 @@ object IT_WMS_Backend extends App {
   Weather.http.close()
   // --
 
-  // Akka HTTP webserver
-  WebServer.listen()
 //  Server.listen()
 }

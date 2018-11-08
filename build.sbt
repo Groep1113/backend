@@ -41,10 +41,6 @@ lazy val Networking = (project in file(s"$dirSubmodules/networking"))
   .settings(
     name := "HTG IT Networking",
     libraryDependencies += scalaTest % Test,
-//    libraryDependencies ++= Seq(
-//      "com.typesafe.akka" %% "akka-http"   % "10.1.5",
-//      "com.typesafe.akka" %% "akka-stream" % "2.5.12"
-//    ),
   )
 
 lazy val GraphQL = (project in file(s"$dirSubmodules/graphql"))
@@ -56,14 +52,5 @@ lazy val GraphQL = (project in file(s"$dirSubmodules/graphql"))
       "org.sangria-graphql" %% "sangria" % "1.4.2",
       "org.sangria-graphql" %% "sangria-slowlog" % "0.1.8",
       "org.sangria-graphql" %% "sangria-play-json" % "1.0.4",
-
-      // Akka HTTP is used for the webserver
-      "com.typesafe.akka" %% "akka-http" % "10.1.5",
-      "de.heikoseeberger" %% "akka-http-circe" % "1.21.0",
-
-      // JSON Library; circe.github.io/circe/
-//      "io.circe" %%	"circe-core" % "0.9.3",
-//      "io.circe" %% "circe-parser" % "0.9.3",
-//      "io.circe" %% "circe-optics" % "0.9.3",
     )
   )

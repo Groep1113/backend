@@ -1,15 +1,12 @@
 package nl.ooot.wms.controllers
 
 import java.sql.Date
-import java.util
 
 import controllers.AssetsFinder
 import io.ebean.Ebean
 import javax.inject.Inject
-import play.api.mvc._
 import nl.ooot.wms.models.{Role, User}
-
-import scala.concurrent.JavaConversions
+import play.api.mvc._
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -28,10 +25,10 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
   def index = Action {
 
     // Get user example
-    var u : User = User.authenticate("wouter@wouter.nl", "wouter")
+    val u: User = User.authenticate("wouter@wouter.nl", "wouter")
 
     // @TODO: MAKE ACTUAL SEEDER THIS SUCKS
-    if(u == null) {
+    if (u == null) {
       var u = new User()
       u.setDateOfBirth(Date.valueOf("1993-05-16"))
       u.setFirstName("Woutie")
@@ -40,7 +37,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       u.setPassword("wouter")
       Ebean.save(u)
 
-      var role = new Role()
+      val role = new Role()
       role.setName("held")
       u.roles.add(role)
       Ebean.save(role)
@@ -51,7 +48,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
 
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()
-    while(rIterator.hasNext()){
+    while (rIterator.hasNext) {
       println(rIterator.next().name)
     }
 

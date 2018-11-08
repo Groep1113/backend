@@ -1,4 +1,4 @@
-package nl.ooot.wms.controllers
+package nl.ooot.wms.core
 
 import java.sql.Date
 
@@ -56,7 +56,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
     println(u.getFirstName)
 
 
-    Ok(nl.ooot.wms.views.html.index("Your app is ready."))
+    Ok(nl.ooot.wms.views.html.index("Come on and slam and welcome to the jam!"))
   }
 
 }

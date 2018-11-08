@@ -14,16 +14,6 @@ trait UserTrait {
   def email: String
 }
 
-class UserRepo {
-
-  import UserRepo._
-
-  def getUser(id: String): Option[User] = users.find(c ⇒ c.id == id)
-
-  def getUsers(limit: Int, offset: Int): List[User] = users.slice(offset, offset + limit)
-
-}
-
 object UserRepo {
   val users = List(
     User(

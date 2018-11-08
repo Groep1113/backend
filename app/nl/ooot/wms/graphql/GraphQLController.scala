@@ -7,11 +7,10 @@ import play.api.Configuration
 import play.api.libs.json._
 import play.api.mvc._
 import sangria.execution._
-import sangria.execution.deferred.DeferredResolver
+import sangria.marshalling.playJson._
 import sangria.parser.{QueryParser, SyntaxError}
 import sangria.renderer.SchemaRenderer
 import sangria.slowlog.SlowLog
-import sangria.marshalling.playJson._
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -21,11 +20,11 @@ class GraphQLController @Inject()(system: ActorSystem, config: Configuration)(im
 
   import system.dispatcher
 
-  val googleAnalyticsCode = config.getOptional[String]("gaCode")
-  val defaultGraphQLUrl = config.getOptional[String]("defaultGraphQLUrl").getOrElse(s"http://localhost:${config.getOptional[Int]("http.port").getOrElse(9000)}/graphql")
+  val defaultGraphQLUrl = config.getOptional[String]("defaultGraphQLUrl")
+    .getOrElse(s"http://localhost:${config.getOptional[Int]("http.port").getOrElse(9000)}/graphql")
 
   def playground = Action {
-    Ok(nl.ooot.wms.views.html.playground(None))
+    Ok(nl.ooot.wms.views.html.playground(assetsFinder))
   }
 
   def graphql(query: String, variables: Option[String], operation: Option[String]) = Action.async { request ⇒
@@ -53,13 +52,10 @@ class GraphQLController @Inject()(system: ActorSystem, config: Configuration)(im
 
       // query parsed successfully, time to execute it!
       case Success(queryAst) ⇒
-        Executor.execute(SchemaDefinition.schema, queryAst, new UserRepo,
+        Executor.execute(SchemaDefinition.schema, queryAst,
           operationName = operation,
           variables = variables getOrElse Json.obj(),
           exceptionHandler = exceptionHandler,
-          queryReducers = List(
-            QueryReducer.rejectMaxDepth[UserRepo](15),
-            QueryReducer.rejectComplexQueries[UserRepo](4000, (_, _) ⇒ TooComplexQueryError)),
           middleware = if (tracing) SlowLog.apolloTracing :: Nil else Nil)
           .map(Ok(_))
           .recover {

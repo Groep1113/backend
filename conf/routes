@@ -3,7 +3,7 @@
 # ~~~
 
 # An example controller showing a sample home page
-GET     /                           @nl.ooot.wms.controllers.HomeController.index
+GET     /                           @nl.ooot.wms.core.HomeController.index
 
 # GraphQL (sangria)
 + nocsrf

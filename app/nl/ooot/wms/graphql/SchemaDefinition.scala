@@ -19,7 +19,7 @@ object SchemaDefinition {
         Field("id", StringType,
           Some("The id of the human."),
           resolve = _.value.id),
-        Field("firsName", StringType,
+        Field("firstName", StringType,
           Some("first name"),
           resolve = _.value.firstName),
         Field("lastName", StringType,

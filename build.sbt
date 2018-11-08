@@ -22,7 +22,9 @@ lazy val IT_WMS = (project in file("."))
 
     libraryDependencies += scalaTest % Test,
     libraryDependencies += guice,
+    libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.12",
   )
+playEbeanModels in Compile := Seq("nl.ooot.wms.models.*")
 
 lazy val Core = (project in file(s"$dirSubmodules/core"))
   .settings(

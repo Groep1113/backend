@@ -3,9 +3,31 @@
 
 # --- !Ups
 
+create table category (
+  id                            integer auto_increment not null,
+  name                          varchar(255),
+  created_at                    datetime(6) not null,
+  updated_at                    datetime(6) not null,
+  constraint pk_category primary key (id)
+);
+
+create table location (
+  id                            integer auto_increment not null,
+  code                          varchar(255),
+  depth                         varchar(255),
+  width                         varchar(255),
+  height                        varchar(255),
+  created_at                    datetime(6) not null,
+  updated_at                    datetime(6) not null,
+  constraint uq_location_width unique (width),
+  constraint pk_location primary key (id)
+);
+
 create table role (
   id                            integer auto_increment not null,
   name                          varchar(255),
+  created_at                    datetime(6) not null,
+  updated_at                    datetime(6) not null,
   constraint uq_role_name unique (name),
   constraint pk_role primary key (id)
 );
@@ -23,6 +45,8 @@ create table user (
   email                         varchar(255),
   password                      varchar(255),
   date_of_birth                 date,
+  created_at                    datetime(6) not null,
+  updated_at                    datetime(6) not null,
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id)
 );
@@ -41,6 +65,10 @@ drop index ix_role_user_role on role_user;
 
 alter table role_user drop foreign key fk_role_user_user;
 drop index ix_role_user_user on role_user;
+
+drop table if exists category;
+
+drop table if exists location;
 
 drop table if exists role;
 

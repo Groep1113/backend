@@ -9,10 +9,7 @@ import nl.ooot.wms.dao._
 import scala.beans.BeanProperty
 
 @Entity
-class User {
-  @Id
-  var id: Int = 0
-
+class User extends BaseModel {
   @Column
   @BeanProperty
   var firstName: String = _
@@ -21,7 +18,7 @@ class User {
   @BeanProperty
   var lastName: String = _
 
-  @Column(unique=true)
+  @Column(unique = true)
   @BeanProperty
   var email: String = _
 
@@ -34,7 +31,7 @@ class User {
   var dateOfBirth: Date = _
 
   @ManyToMany(mappedBy = "users")
-  var roles : util.List[Role] = new util.ArrayList[Role]()
+  var roles: util.List[Role] = new util.ArrayList[Role]()
 }
 
 object User extends Dao(classOf[User]) {

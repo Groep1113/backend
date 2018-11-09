@@ -8,16 +8,13 @@ import nl.ooot.wms.dao._
 import scala.beans.BeanProperty
 
 @Entity
-class Role {
-  @Id
-  var id: Int = 0
-
-  @Column(unique=true)
+class Role extends BaseModel {
+  @Column(unique = true)
   @BeanProperty
   var name: String = _
 
   @ManyToMany
-  var users : util.List[User] = new util.ArrayList[User]()
+  var users: util.List[User] = new util.ArrayList[User]()
 }
 
 object Role extends Dao(classOf[Role]) {

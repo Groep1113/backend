@@ -33,7 +33,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       u.setDateOfBirth(Date.valueOf("1993-05-16"))
       u.setFirstName("Admin")
       u.setLastName("1113")
-      u.setEmail("admin@bs-htgs.nl")
+      u.setEmail("admin@bs-htg.nl")
       u.setPassword("357111317232731")
       Ebean.save(u)
 
@@ -43,7 +43,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       Ebean.save(role)
       Ebean.save(u)
 
-      u = User.authenticate("admin@ooot.nl", "357111317232731")
+      u = User.authenticate("admin@bs-htg.nl", "357111317232731")
     }
 
     // Loop over many to many field (java.util.List)

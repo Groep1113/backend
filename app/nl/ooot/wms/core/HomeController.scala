@@ -25,7 +25,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
   def index = Action {
 
     // Get user example
-    val u: User = User.authenticate("admin@ooot.nl", "357111317232731")
+    val u: User = User.authenticate("admin@bs-htg.nl", "357111317232731")
 
     // @TODO: MAKE ACTUAL SEEDER THIS SUCKS
     if (u == null) {
@@ -33,7 +33,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       u.setDateOfBirth(Date.valueOf("1993-05-16"))
       u.setFirstName("Admin")
       u.setLastName("1113")
-      u.setEmail("admin@ooot.nl")
+      u.setEmail("admin@bs-htgs.nl")
       u.setPassword("357111317232731")
       Ebean.save(u)
 

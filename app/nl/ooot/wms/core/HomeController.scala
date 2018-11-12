@@ -25,25 +25,25 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
   def index = Action {
 
     // Get user example
-    val u: User = User.authenticate("wouter@wouter.nl", "wouter")
+    val u: User = User.authenticate("admin@ooot.nl", "357111317232731")
 
     // @TODO: MAKE ACTUAL SEEDER THIS SUCKS
     if (u == null) {
       var u = new User()
       u.setDateOfBirth(Date.valueOf("1993-05-16"))
-      u.setFirstName("Woutie")
-      u.setLastName("Houtie")
-      u.setEmail("wouter@wouter.nl")
-      u.setPassword("wouter")
+      u.setFirstName("Admin")
+      u.setLastName("1113")
+      u.setEmail("admin@ooot.nl")
+      u.setPassword("357111317232731")
       Ebean.save(u)
 
       val role = new Role()
-      role.setName("held")
+      role.setName("admin")
       u.roles.add(role)
       Ebean.save(role)
       Ebean.save(u)
 
-      u = User.authenticate("wouter@wouter.nl", "wouter")
+      u = User.authenticate("admin@ooot.nl", "357111317232731")
     }
 
     // Loop over many to many field (java.util.List)

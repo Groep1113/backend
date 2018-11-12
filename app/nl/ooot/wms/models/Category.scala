@@ -1,8 +1,10 @@
 package nl.ooot.wms.models
 
-import java.sql.Date
+import java.util
+
 import javax.persistence._
 import nl.ooot.wms.dao.Dao
+
 import scala.beans.BeanProperty
 
 
@@ -11,6 +13,12 @@ class Category extends BaseModel {
   @Column
   @BeanProperty
   var name: String = _
+
+  @OneToMany(mappedBy = "category")
+  var items: util.List[Item] = new util.ArrayList[Item]()
+
+  @ManyToMany(mappedBy = "categories")
+  var locations: util.List[Location] = new util.ArrayList[Location]()
 }
 
 object Category extends Dao(classOf[Category]) {
@@ -20,5 +28,5 @@ object Category extends Dao(classOf[Category]) {
     category
   }
 
-  def unapply(user: User): Option[(String, String, Date, String)] = Some((user.getFirstName, user.getLastName, user.getDateOfBirth, user.getEmail))
+  def unapply(category: Category): Option[String] = Some(category.getName)
 }

@@ -18,7 +18,6 @@ case class LoginFilter @Inject() (errorHandler: HttpErrorHandler)
     if(requestHeader.uri.length() > 0) {
       for(bl <- blacklist) {
         if(requestHeader.uri.startsWith(bl._1)) {
-          var isMethod = false
           for(method <- bl._2) {
             var m: String = method
             if(m.equals(requestHeader.method)) {

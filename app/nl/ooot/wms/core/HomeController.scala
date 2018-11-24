@@ -5,7 +5,7 @@ import java.sql.Date
 import controllers.AssetsFinder
 import io.ebean.Ebean
 import javax.inject.Inject
-import nl.ooot.wms.models.{Role, User}
+import nl.ooot.wms.models.{Item, Role, User}
 import play.api.mvc._
 
 /**

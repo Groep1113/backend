@@ -3,6 +3,12 @@
 
 # --- !Ups
 
+create table item (
+  id                            integer auto_increment not null,
+  name                          varchar(255),
+  constraint pk_item primary key (id)
+);
+
 create table role (
   id                            integer auto_increment not null,
   name                          varchar(255),
@@ -27,11 +33,6 @@ create table user (
   constraint pk_user primary key (id)
 );
 
-create table item (
-  name                          varchar(255),
-  constraint pk_user primary key (id)
-)
-
 create index ix_role_user_role on role_user (role_id);
 alter table role_user add constraint fk_role_user_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 
@@ -47,11 +48,11 @@ drop index ix_role_user_role on role_user;
 alter table role_user drop foreign key fk_role_user_user;
 drop index ix_role_user_user on role_user;
 
+drop table if exists item;
+
 drop table if exists role;
 
 drop table if exists role_user;
 
 drop table if exists user;
-
-drop table if exists item;
 

@@ -46,6 +46,14 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       u = User.authenticate("admin@bs-htg.nl", "357111317232731")
     }
 
+    val item = new Item()
+    item.setName("Lenovo Yoga")
+    item.setCode("123456")
+    item.setRecommended_stock(5)
+    Ebean.save(item)
+
+
+
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()
     while (rIterator.hasNext) {

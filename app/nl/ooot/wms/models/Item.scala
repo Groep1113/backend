@@ -14,6 +14,13 @@ class Item {
   @BeanProperty
   var name: String = _
 
+  @Column
+  @BeanProperty
+  var code: String = _
+
+  @Column
+  @BeanProperty
+  var recommended_stock: Int = _
 }
 
 object Item extends Dao(classOf[Item]) {

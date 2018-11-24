@@ -10,6 +10,8 @@ object ItemType {
     () ⇒ fields[Unit, Item](
       Field("id", IntType, resolve = _.value.id),
       Field("name", StringType, resolve = _.value.name) //,
+      Field("code", StringType, resolve = _.value.code),
+      Field("recommended_stock", IntType, resolve = _.value.recommended_stock)
     )
   )
 }

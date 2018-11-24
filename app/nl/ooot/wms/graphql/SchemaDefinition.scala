@@ -1,6 +1,6 @@
 package nl.ooot.wms.graphql
 
-import nl.ooot.wms.graphql.schema.types.{RoleType, UserType, ItemType}
+import nl.ooot.wms.graphql.schema.types.{ItemType, LocationType, RoleType, UserType}
 import nl.ooot.wms.models
 import sangria.schema._
 
@@ -33,6 +33,9 @@ object SchemaDefinition {
       Field("items", ListType(ItemType.ItemType),
         arguments = Nil,
         resolve = _ ⇒ models.Item.find().findList().asScala),
+      Field("location", LocationType.LocationType,
+        arguments = ID :: Nil,
+        resolve = c ⇒ models.Location.find(c arg ID)),
     ))
 
   val schema = Schema(QueryType)

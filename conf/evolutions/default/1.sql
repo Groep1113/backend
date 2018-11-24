@@ -6,7 +6,15 @@
 create table item (
   id                            integer auto_increment not null,
   name                          varchar(255),
+  code                          varchar(255),
+  recommended_stock             integer not null,
   constraint pk_item primary key (id)
+);
+
+create table location (
+  id                            integer auto_increment not null,
+  code                          varchar(255),
+  constraint pk_location primary key (id)
 );
 
 create table role (
@@ -49,6 +57,8 @@ alter table role_user drop foreign key fk_role_user_user;
 drop index ix_role_user_user on role_user;
 
 drop table if exists item;
+
+drop table if exists location;
 
 drop table if exists role;
 

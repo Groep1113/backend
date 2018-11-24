@@ -8,7 +8,6 @@ import play.api.mvc.{EssentialAction, RequestHeader, _}
 
 case class LoginFilter @Inject() (errorHandler: HttpErrorHandler)
   extends play.api.mvc.EssentialFilter {
-  private lazy val unauthResult = Results.Unauthorized
   private val blacklist = List(
     ("/graphql", List("POST", "GET"))
   )

@@ -5,7 +5,7 @@ import java.sql.Date
 import controllers.AssetsFinder
 import io.ebean.Ebean
 import javax.inject.Inject
-import nl.ooot.wms.models.{Role, User}
+import nl.ooot.wms.models.{Item, Role, User, Location}
 import play.api.mvc._
 
 /**
@@ -45,6 +45,18 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
 
       u = User.authenticate("admin@bs-htg.nl", "357111317232731")
     }
+
+    val item = new Item()
+    item.setName("Lenovo Yoga")
+    item.setCode("123456")
+    item.setRecommended_stock(5)
+    Ebean.save(item)
+
+    val location = new Location()
+    location.setCode("A1")
+    item.locations.add(location)
+    Ebean.save(location)
+    Ebean.save(item)
 
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()

@@ -9,7 +9,7 @@ object LocationType {
     "An location object",
     () ⇒ fields[Unit, Location](
       Field("id", IntType, resolve = _.value.id),
-      Field("code", StringType, resolve = _.value.code)
+      Field("code", StringType, resolve = _.value.code),
     )
   )
 }

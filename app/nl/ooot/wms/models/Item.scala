@@ -1,6 +1,7 @@
 package nl.ooot.wms.models
 
 import java.beans.BeanProperty
+import java.util
 
 import javax.persistence._
 import nl.ooot.wms.dao.Dao
@@ -21,6 +22,9 @@ class Item {
   @Column
   @BeanProperty
   var recommended_stock: Int = _
+
+  @ManyToMany(mappedBy = "items")
+  var locations : util.List[Location] = new util.ArrayList[Location]()
 }
 
 object Item extends Dao(classOf[Item]) {

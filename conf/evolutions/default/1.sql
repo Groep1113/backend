@@ -17,6 +17,12 @@ create table location (
   constraint pk_location primary key (id)
 );
 
+create table location_item (
+  location_id                   integer not null,
+  item_id                       integer not null,
+  constraint pk_location_item primary key (location_id,item_id)
+);
+
 create table role (
   id                            integer auto_increment not null,
   name                          varchar(255),
@@ -41,6 +47,12 @@ create table user (
   constraint pk_user primary key (id)
 );
 
+create index ix_location_item_location on location_item (location_id);
+alter table location_item add constraint fk_location_item_location foreign key (location_id) references location (id) on delete restrict on update restrict;
+
+create index ix_location_item_item on location_item (item_id);
+alter table location_item add constraint fk_location_item_item foreign key (item_id) references item (id) on delete restrict on update restrict;
+
 create index ix_role_user_role on role_user (role_id);
 alter table role_user add constraint fk_role_user_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 
@@ -49,6 +61,12 @@ alter table role_user add constraint fk_role_user_user foreign key (user_id) ref
 
 
 # --- !Downs
+
+alter table location_item drop foreign key fk_location_item_location;
+drop index ix_location_item_location on location_item;
+
+alter table location_item drop foreign key fk_location_item_item;
+drop index ix_location_item_item on location_item;
 
 alter table role_user drop foreign key fk_role_user_role;
 drop index ix_role_user_role on role_user;
@@ -59,6 +77,8 @@ drop index ix_role_user_user on role_user;
 drop table if exists item;
 
 drop table if exists location;
+
+drop table if exists location_item;
 
 drop table if exists role;
 

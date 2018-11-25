@@ -1,6 +1,7 @@
 package nl.ooot.wms.models
 
 import java.beans.BeanProperty
+import java.util
 
 import javax.persistence._
 import nl.ooot.wms.dao.Dao
@@ -13,6 +14,9 @@ class Location {
   @Column
   @BeanProperty
   var code: String = _
+
+  @ManyToMany
+  var items : util.List[Item] = new util.ArrayList[Item]()
 }
 
 object Location extends Dao(classOf[Location]) {

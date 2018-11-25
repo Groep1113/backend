@@ -54,7 +54,9 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
 
     val location = new Location()
     location.setCode("A1")
+    item.locations.add(location)
     Ebean.save(location)
+    Ebean.save(item)
 
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()

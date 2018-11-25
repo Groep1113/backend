@@ -28,4 +28,13 @@ object Role extends Dao(classOf[Role]) {
   }
 
   def unapply(role: Role): Option[String] = Some(role.getName)
+
+  def findOrCreate(name: String): Role = {
+    var role = Role.find().where().eq("name", name).findOne()
+    if (role == null) {
+      role = new Role()
+      role.setName(name)
+    }
+    role
+  }
 }

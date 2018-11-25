@@ -23,6 +23,7 @@ lazy val IT_WMS = (project in file("."))
     libraryDependencies += scalaTest % Test,
     libraryDependencies += guice,
     libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.13",
+    libraryDependencies += "com.github.t3hnar" %% "scala-bcrypt" % "3.1",
   )
 playEbeanModels in Compile := Seq("nl.ooot.wms.models.*")
 

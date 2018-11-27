@@ -1,5 +1,6 @@
 package nl.ooot.wms.graphql.schema.types
 
+import nl.ooot.wms.graphql.ErrorHandling.AuthenticationException
 import nl.ooot.wms.models.User
 import sangria.schema._
 
@@ -8,7 +9,9 @@ object LoginType {
     "Login",
     fields[Unit, String](
       Field("token", StringType, resolve = _.value),
-      Field("user", UserType.UserType, resolve = c => User.byToken(c.value).orNull),
+      Field("user", UserType.UserType, resolve = c => User.byToken(c.value)
+        .getOrElse(throw AuthenticationException("Invalid login"))
+      ),
     )
   )
 }

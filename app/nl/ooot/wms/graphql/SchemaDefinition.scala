@@ -1,5 +1,6 @@
 package nl.ooot.wms.graphql
 
+import nl.ooot.wms.graphql.ErrorHandling.AuthenticationException
 import nl.ooot.wms.graphql.schema.types.{LoginType, RoleType, UserType}
 import nl.ooot.wms.models
 import nl.ooot.wms.models.User
@@ -48,7 +49,7 @@ object SchemaDefinition {
         resolve = c => {
           val authToken = models.User.authenticate(c arg EmailArg, c arg PasswordArg)
           if (authToken.isDefined) authToken.get
-          else "invalid login"
+          else throw AuthenticationException("Invalid login")
         }
       )
     )

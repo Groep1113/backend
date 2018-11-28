@@ -1,7 +1,7 @@
 package nl.ooot.wms.graphql
 
 import nl.ooot.wms.graphql.ErrorHandling.AuthenticationException
-import nl.ooot.wms.graphql.schema.types.{LoginType, RoleType, UserType}
+import nl.ooot.wms.graphql.schema.types._
 import nl.ooot.wms.models
 import nl.ooot.wms.models.User
 import sangria.schema._
@@ -31,6 +31,14 @@ object SchemaDefinition {
         resolve = c => models.User.find(c arg ID)),
       Field("users", ListType(UserType.UserType),
         resolve = _ => models.User.find().findList().asScala),
+      Field("item", ItemType.ItemType,
+        arguments = ID :: Nil,
+        resolve = c ⇒ models.Item.find(c arg ID)),
+      Field("items", ListType(ItemType.ItemType),
+        resolve = _ ⇒ models.Item.find().findList().asScala),
+      Field("location", LocationType.LocationType,
+        arguments = ID :: Nil,
+        resolve = c ⇒ models.Location.find(c arg ID)),
       Field("roles", ListType(RoleType.RoleType),
         resolve = _ => models.Role.find().findList().asScala)
     )

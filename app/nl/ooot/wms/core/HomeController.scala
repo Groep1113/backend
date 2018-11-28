@@ -5,7 +5,7 @@ import java.sql.Date
 import controllers.AssetsFinder
 import io.ebean.Ebean
 import javax.inject.Inject
-import nl.ooot.wms.models.{Role, User}
+import nl.ooot.wms.models.{Item, Location, Role, User}
 import play.api.mvc._
 
 /**
@@ -28,7 +28,6 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
     val auth = User.authenticate("admin@bs-htg.nl", "habbo123")
     var u: User = null
 
-    // @TODO: MAKE ACTUAL SEEDER THIS SUCKS
     if (auth.isDefined) {
       u = User.byToken(auth.get).get
     } else {
@@ -45,6 +44,18 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
       Ebean.save(role)
       Ebean.save(u)
     }
+
+    val item = new Item()
+    item.setName("Lenovo Yoga")
+    item.setCode("123456")
+    item.setRecommended_stock(5)
+    Ebean.save(item)
+
+    val location = new Location()
+    location.setCode("A1")
+    item.locations.add(location)
+    Ebean.save(location)
+    Ebean.save(item)
 
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()

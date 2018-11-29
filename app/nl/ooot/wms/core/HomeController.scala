@@ -5,7 +5,7 @@ import java.sql.Date
 import controllers.AssetsFinder
 import io.ebean.Ebean
 import javax.inject.Inject
-import nl.ooot.wms.models.{Role, User}
+import nl.ooot.wms.models.{Item, Location, Role, User}
 import play.api.mvc._
 
 /**
@@ -25,26 +25,37 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
   def index = Action {
 
     // Get user example
-    val u: User = User.authenticate("admin@bs-htg.nl", "357111317232731")
+    val auth = User.authenticate("admin@bs-htg.nl", "habbo123")
+    var u: User = null
 
-    // @TODO: MAKE ACTUAL SEEDER THIS SUCKS
-    if (u == null) {
-      var u = new User()
+    if (auth.isDefined) {
+      u = User.byToken(auth.get).get
+    } else {
+      u = new User()
       u.setDateOfBirth(Date.valueOf("1993-05-16"))
       u.setFirstName("Admin")
       u.setLastName("1113")
       u.setEmail("admin@bs-htg.nl")
-      u.setPassword("357111317232731")
+      u.setAndHashPassword("habbo123")
       Ebean.save(u)
 
-      val role = new Role()
-      role.setName("admin")
+      val role = Role.findOrCreate("admin")
       u.roles.add(role)
       Ebean.save(role)
       Ebean.save(u)
-
-      u = User.authenticate("admin@bs-htg.nl", "357111317232731")
     }
+
+    val item = new Item()
+    item.setName("Lenovo Yoga")
+    item.setCode("123456")
+    item.setRecommended_stock(5)
+    Ebean.save(item)
+
+    val location = new Location()
+    location.setCode("A1")
+    item.locations.add(location)
+    Ebean.save(location)
+    Ebean.save(item)
 
     // Loop over many to many field (java.util.List)
     val rIterator = u.roles.iterator()
@@ -54,8 +65,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit assetsFinder: 
 
     // getters for fields follow camelcase, field firstName becomes getFirstName
     println(u.getFirstName)
-
-
+    
     Ok(nl.ooot.wms.views.html.index("Come on and slam and welcome to the jam!"))
   }
 

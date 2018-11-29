@@ -5,6 +5,8 @@ import java.util
 
 import javax.persistence._
 import nl.ooot.wms.dao._
+import nl.ooot.wms.auth._
+import com.github.t3hnar.bcrypt._
 
 import scala.beans.BeanProperty
 
@@ -21,7 +23,7 @@ class User {
   @BeanProperty
   var lastName: String = _
 
-  @Column(unique=true)
+  @Column(unique = true)
   @BeanProperty
   var email: String = _
 
@@ -29,12 +31,17 @@ class User {
   @BeanProperty
   var password: String = _
 
+  @Override
+  def setAndHashPassword(password: String): Unit = {
+    this.setPassword(User.hashPassword(password))
+  }
+
   @Column
   @BeanProperty
   var dateOfBirth: Date = _
 
   @ManyToMany(mappedBy = "users")
-  var roles : util.List[Role] = new util.ArrayList[Role]()
+  var roles: util.List[Role] = new util.ArrayList[Role]()
 }
 
 object User extends Dao(classOf[User]) {
@@ -50,8 +57,27 @@ object User extends Dao(classOf[User]) {
 
   def unapply(user: User): Option[(String, String, Date, String)] = Some((user.getFirstName, user.getLastName, user.getDateOfBirth, user.getEmail))
 
-  def authenticate(username: String, password: String): User = {
-    val user: User = find().where().eq("email", username).eq("password", password).findOne()
-    user
+  // @TODO: figure out how to load secret key from production.conf in object..
+//  private val SALT: String = "SomeSalt"
+  private val ROUNDS: Int = 10
+
+  def hashPassword(password: String): String = {
+    // This could throw an exception if the password can not be bcrypted safely?
+    // @TODO not sure what to do in such a case
+    password.bcryptSafe(ROUNDS).get
+  }
+
+  def authenticate(username: String, password: String): Option[String] = {
+    // find the user
+    val user: User = find().where().eq("email", username).findOne()
+    if (user == null) return None
+
+    // return None if the password is not a match, or a token if it is a match
+    if (!password.isBcrypted(user.getPassword)) return None
+    Option(TokenManager.generateToken(user))
+  }
+
+  def byToken(token: String): Option[User] = {
+    TokenManager.getUser(token)
   }
 }
